@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/author/library.git"
   },
+  "bin": {
+    "cli-demo": "./dist/cli.mjs"
+  },
   "files": [
     "dist"
   ],
@@ -24,8 +27,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vp pack",
-    "dev": "vp pack --watch",
+    "build": "vp pack && pnpm build:cli",
+    "build:cli": "esbuild src/cli.ts --bundle --platform=node --format=esm --outfile=dist/cli.mjs --external:cac --banner:js=\"#!/usr/bin/env node\"",
+    "dev": "tsx src/cli.ts",
     "test": "vp test",
     "check": "vp check",
     "prepublishOnly": "vp run build"
@@ -34,6 +38,8 @@
     "@types/node": "^25.5.0",
     "@typescript/native-preview": "7.0.0-dev.20260316.1",
     "bumpp": "^11.0.1",
+    "esbuild": "^0.27.4",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite-plus": "^0.1.11"
   },
@@ -43,5 +49,8 @@
       "vite": "npm:@voidzero-dev/vite-plus-core@latest",
       "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
     }
+  },
+  "dependencies": {
+    "cac": "^7.0.0"
   }
 }
